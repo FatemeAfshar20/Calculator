@@ -17,12 +17,11 @@ public class CalculatorActivity extends AppCompatActivity {
     private Button mBtnDelete,mBtnMul,mBtnDiv,mBtnAdd,mBtnSub,mBtnEqual;
     private EditText mText;
     private int[] recurseIds = createId(mBtnNumbers, "btn_");
-    double number=0;
-    double anotherNum=0;
-    boolean mDeleteTrue=false;
-    boolean mIsSymbol=false;
-    String mInputSymbol="";
-    String mInputNum="";
+    private double number=0;
+    private double anotherNum=0;
+    private boolean mIsSymbol=false;
+    private String mInputSymbol="";
+    private String mInputNum="";
    private double mResult =0;
 
     @Override
@@ -48,7 +47,7 @@ public class CalculatorActivity extends AppCompatActivity {
 
     public void setListener() {
 
-       /* for (int i = 0; i < mBtnNumbers.length; i++) {
+        for (int i = 0; i < mBtnNumbers.length; i++) {
             final int finalI = i;
             mBtnNumbers[i].setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,46 +55,22 @@ public class CalculatorActivity extends AppCompatActivity {
                     mInputNum="" + getResources().getText(getId("num_" + finalI, R.string.class));
                     mText.setText(mText.getText() +mInputNum);
                     number=Double.parseDouble(mInputNum);
-                    if (mIsSymbol)
-                        mResult=number;
-               //     putNum(number);
+                    if (!mIsSymbol)
+                        mResult = number;
+                    else {
+                        anotherNum = number;
+                        mResult=calculator();
+                        mIsSymbol=false;
+                    }
                 }
             });
-            continue;
+        }
 
-        }*/
-
-       mBtnNumbers[5].setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               mText.setText(mText.getText()+"" + getResources().getText(getId("num_" + 5, R.string.class)));
-               number=Double.parseDouble("5");
-               String text=mText.getText().toString();
-               if(!mIsSymbol)
-                   mResult=number;
-               else
-                   anotherNum=number;
-           }
-       });
-
-        mBtnNumbers[3].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mText.setText(mText.getText()+"" + getResources().getText(getId("num_" + 3, R.string.class)));
-                number=Double.parseDouble("3");
-                String text=mText.getText().toString();
-                if(!mIsSymbol)
-                   mResult=number;
-                else
-                    anotherNum=number;
-            }
-        });
-
-    mBtnDelete.setOnClickListener(new View.OnClickListener() {
+        mBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mText.setText("");
-                mResult =0;
+                mResult=0;
             }
         });
 
@@ -112,6 +87,7 @@ public class CalculatorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mText.setText(mText.getText()+" - ");
                 mInputSymbol="-";
+                mIsSymbol=true;
             }
         });
         mBtnDiv.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +95,7 @@ public class CalculatorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mText.setText(mText.getText()+" ÷ ");
                 mInputSymbol="÷";
+                mIsSymbol=true;
             }
         });
         mBtnMul.setOnClickListener(new View.OnClickListener() {
@@ -126,13 +103,13 @@ public class CalculatorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mText.setText(mText.getText()+" * ");
                 mInputSymbol="*";
+                mIsSymbol=true;
             }
         });
 
         mBtnEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               double mResult=calculator();
                 mText.setText(mResult+"");
                 mIsSymbol=false;
             }
@@ -173,27 +150,27 @@ public class CalculatorActivity extends AppCompatActivity {
                         if (mResult== 0) {
                             result = mCalculator.add(number);
                         }else
-                            result = mCalculator.add(mResult,number);
+                            result = mCalculator.add(mResult,anotherNum);
                         break;
                     case "-":
                         if (number == 0) {
                             result = mCalculator.subtract(anotherNum);
                         } else {
-                            result = mCalculator.subtract(number,anotherNum);
+                            result = mCalculator.subtract(mResult,anotherNum);
                         }
                         break;
                     case "*":
                         if (number == 0) {
                             result = mCalculator.multiply(anotherNum);
                         } else {
-                            result = mCalculator.multiply(number, anotherNum);
+                            result = mCalculator.multiply(mResult,anotherNum);
                         }
                         break;
                     case "÷":
                         if (number == 0) {
                             result = mCalculator.division(anotherNum);
                         } else {
-                            result = mCalculator.division(number, anotherNum);
+                            result = mCalculator.division(mResult,anotherNum);
                         }
                         break;
                     default:

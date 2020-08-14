@@ -40,6 +40,7 @@ public class Calculator {
                memory /= number;
             }
         }
+
         return memory;
     }
 }
