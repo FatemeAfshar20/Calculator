@@ -71,8 +71,10 @@ public class CalculatorActivity extends AppCompatActivity {
                mText.setText(mText.getText()+"" + getResources().getText(getId("num_" + 5, R.string.class)));
                number=Double.parseDouble("5");
                String text=mText.getText().toString();
-               if(mIsSymbol)
-                   mResult=Double.parseDouble(text.substring(0,1));
+               if(!mIsSymbol)
+                   mResult=number;
+               else
+                   anotherNum=number;
            }
        });
 
@@ -82,8 +84,10 @@ public class CalculatorActivity extends AppCompatActivity {
                 mText.setText(mText.getText()+"" + getResources().getText(getId("num_" + 3, R.string.class)));
                 number=Double.parseDouble("3");
                 String text=mText.getText().toString();
-                if(mIsSymbol)
-                   mResult=Double.parseDouble(text.substring(0,1));
+                if(!mIsSymbol)
+                   mResult=number;
+                else
+                    anotherNum=number;
             }
         });
 
@@ -130,7 +134,7 @@ public class CalculatorActivity extends AppCompatActivity {
             public void onClick(View v) {
                double mResult=calculator();
                 mText.setText(mResult+"");
-                CalculatorActivity.this.mResult=0;
+                mIsSymbol=false;
             }
         });
 
